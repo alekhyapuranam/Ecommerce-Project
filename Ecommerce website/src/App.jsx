@@ -9,7 +9,7 @@ import { Orders } from './pages/Orders'
 function App() {
    const [checkoutItems, setCheckoutItems]=useState([]);
   useEffect(()=>{
-    axios.get('api/cart-items').
+    axios.get('api/cart-items?expand=product').
     then((response)=>{
        console.log(response.data);
         setCheckoutItems(response.data);
