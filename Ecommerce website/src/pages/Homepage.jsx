@@ -3,13 +3,7 @@ import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import "./Homepage.css";
 export function HomePage({ checkoutItems }) {
-  let total = 0;
-
-  checkoutItems.forEach(element => {
-    total += element.quantity;
-
-  });
-
+  
   const [products, setProducts] = useState([]);
   useEffect(() => {
     axios.get('api/products').
@@ -23,7 +17,7 @@ export function HomePage({ checkoutItems }) {
 
     <>
       {console.log(products)};
-      <Header total={total} />
+      <Header checkoutItems={checkoutItems} />
 
 
 
