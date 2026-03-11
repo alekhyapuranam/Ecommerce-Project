@@ -23,7 +23,7 @@ function App() {
     <Routes>
       <Route index element={<HomePage checkoutItems={checkoutItems}/>}/>
       <Route path="checkout" element={checkoutItems&& <Checkout checkoutItems={checkoutItems}/>}/>
-      <Route path="orders" element={<Orders/>}/>
+      <Route path="orders" element={checkoutItems && <Orders checkoutItems={checkoutItems}/>}/>
        
    </Routes>
     </>
