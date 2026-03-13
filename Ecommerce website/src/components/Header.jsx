@@ -2,7 +2,8 @@ import { Link } from "react-router";
 import { cartCount } from "../utils/cartCount";
 import "./header.css";
 export function Header({checkoutItems}){
-   
+
+  
     return(
         <>
         <div className="header">

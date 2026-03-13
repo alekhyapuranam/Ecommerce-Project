@@ -2,8 +2,8 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { Header } from "../components/Header";
-import { centsToDollars } from "../utils/moneyconversion";
+import { Header } from "../../components/Header";
+import { centsToDollars } from "../../utils/moneyconversion";
 import "./orders.css";
 export function Orders({ checkoutItems }) {
   let [orderDetails, setOrderDetails] = useState([]);
