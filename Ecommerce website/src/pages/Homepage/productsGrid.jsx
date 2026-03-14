@@ -2,7 +2,7 @@
 //import { useEffect } from "react";
 //import { useEffect } from "react";
 import { ProductComponent } from "./productcomponent";
-export function ProductsGrid({ products, setCheckoutItems }) {
+export function ProductsGrid({ products, setCheckoutItems,loadCartItems}) {
 
 
 
@@ -18,7 +18,7 @@ export function ProductsGrid({ products, setCheckoutItems }) {
                     products.map((product) => {
 
                         return (
-                            <ProductComponent key={product.id} product={product} setCheckoutItems={setCheckoutItems} />
+                            <ProductComponent key={product.id} product={product} setCheckoutItems={setCheckoutItems} loadCartItems={loadCartItems} />
 
 
                         )

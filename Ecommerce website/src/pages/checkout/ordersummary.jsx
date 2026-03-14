@@ -1,6 +1,7 @@
+import axios from "axios";
 import dayjs from "dayjs";
 import { centsToDollars } from "../../utils/moneyconversion";
-export function OrderSummary({ checkoutItems, deliveryOptions }) {
+export function OrderSummary({ checkoutItems, deliveryOptions, loadCartItems }) {
 
     return (
         <div className="order-summary">
@@ -53,8 +54,18 @@ export function OrderSummary({ checkoutItems, deliveryOptions }) {
                                         if (option.priceCents != 0) {
                                             shipping = `$${centsToDollars(option.priceCents)} - `;
                                         }
+                                        let updateDeliveryOption= async()=>{
+                                            await axios.put(`/api/cart-items/${item.productId}`,
+                                            {
+                                                "quantity" : item.quantity,
+                                                "deliveryOptionId" : option.id
+                                            });
+                                            loadCartItems();
+
+
+                                        }
                                         return (
-                                            <div key={option.id} className="delivery-option">
+                                            <div key={option.id} className="delivery-option" onClick={updateDeliveryOption}>
                                                 <input type="radio" checked={item.deliveryOptionId === option.id}
                                                     className="delivery-option-input"
                                                     name={`delivery-option-${item.productId}`} />

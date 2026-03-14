@@ -1,13 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-export function ProductComponent({ product, setCheckoutItems }) {
+import { useState } from "react";
+export function ProductComponent({ product, loadCartItems }) {
+      
+    
     let [optionSelected, setOptionSelected] = useState(1);
-    useEffect(() => {
-        let fetchCartData = async () => {
-
-        };
-        fetchCartData();
-    }, [])
+   
+  
     async function addToCartFunction() {
         let quantity = Number(optionSelected);
         // console.log(optionSelected);
@@ -17,8 +15,7 @@ export function ProductComponent({ product, setCheckoutItems }) {
             "quantity": quantity
         })
 
-        let response = await axios.get('api/cart-items?expand=product')
-        setCheckoutItems(response.data);
+        loadCartItems();
 
     }
 

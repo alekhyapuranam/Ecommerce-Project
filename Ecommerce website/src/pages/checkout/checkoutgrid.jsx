@@ -1,6 +1,6 @@
 import { OrderSummary } from "./ordersummary";
 import { PaymentSummary } from "./paymentsummary";
-export function CheckoutGrid({ checkoutItems, deliveryOptions, paymentSummary }) {
+export function CheckoutGrid({ checkoutItems, deliveryOptions, paymentSummary, loadCartItems }) {
 
     return (
 
@@ -8,7 +8,7 @@ export function CheckoutGrid({ checkoutItems, deliveryOptions, paymentSummary })
             <div className="page-title">Review your order</div>
 
             <div className="checkout-grid">
-                <OrderSummary checkoutItems={checkoutItems} deliveryOptions={deliveryOptions} />
+                <OrderSummary checkoutItems={checkoutItems} deliveryOptions={deliveryOptions} loadCartItems={loadCartItems} />
                 
                 <PaymentSummary paymentSummary={paymentSummary} />
                 
