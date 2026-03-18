@@ -10,7 +10,7 @@ export function CheckoutGrid({ checkoutItems, deliveryOptions, paymentSummary, l
             <div className="checkout-grid">
                 <OrderSummary checkoutItems={checkoutItems} deliveryOptions={deliveryOptions} loadCartItems={loadCartItems} />
                 
-                <PaymentSummary paymentSummary={paymentSummary} />
+                <PaymentSummary paymentSummary={paymentSummary} loadCartItems={loadCartItems} />
                 
             </div>
         </div>

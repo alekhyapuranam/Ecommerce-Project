@@ -5,6 +5,7 @@ import './App.css'
 import { Checkout } from './pages/checkout/CheckOut'
 import { HomePage } from './pages/Homepage/Homepage'
 import { Orders } from './pages/orders/Orders'
+import { Tracking } from './pages/tracking/Tracking'
 
 function App() {
   const [checkoutItems, setCheckoutItems] = useState([]);
@@ -24,7 +25,8 @@ function App() {
       <Routes>
         <Route index element={<HomePage checkoutItems={checkoutItems} setCheckoutItems={setCheckoutItems} loadCartItems={loadCartItems} />} />
         <Route path="checkout" element={checkoutItems && <Checkout checkoutItems={checkoutItems} loadCartItems={loadCartItems}/>} />
-        <Route path="orders" element={checkoutItems && <Orders checkoutItems={checkoutItems} />} />
+        <Route path="orders" element={checkoutItems && <Orders checkoutItems={checkoutItems} loadCartItems={loadCartItems}/>} />
+        <Route path="orders/tracking/:orderId/:productId" element={<Tracking checkoutItems={checkoutItems}/>}/>
 
       </Routes>
     </>

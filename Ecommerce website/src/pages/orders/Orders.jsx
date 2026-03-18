@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import { Header } from "../../components/Header";
 import { centsToDollars } from "../../utils/moneyconversion";
 import "./orders.css";
-export function Orders({ checkoutItems }) {
+export function Orders({ checkoutItems, loadCartItems }) {
   let [orderDetails, setOrderDetails] = useState([]);
   useEffect(() => {
     axios.get('api/orders?expand=products').
@@ -26,6 +26,7 @@ export function Orders({ checkoutItems }) {
           {
 
             orderDetails.map((orderItem) => {
+
               return (
                 <div key={orderItem.id} className="order-container">
 
@@ -50,6 +51,13 @@ export function Orders({ checkoutItems }) {
                   <div  className="order-details-grid">
                     {
                       orderItem.products.map((productItem) => {
+                        let addItemToCartAgain= async()=>{
+                          await axios.post('api/cart-items',{
+                            "productId":productItem.product.id,
+                            "quantity" : productItem.quantity
+                          })
+                          await loadCartItems();
+                        }
                         
                         return (
                           <>
@@ -57,7 +65,7 @@ export function Orders({ checkoutItems }) {
                               <img src={productItem.product.image} />
                             </div>
 
-                            <div  className="product-details">
+                            <div key={productItem.product.id} className="product-details">
                               <div className="product-name">
                                 {productItem.product.name}
                               </div>
@@ -67,15 +75,15 @@ export function Orders({ checkoutItems }) {
                               <div className="product-quantity">
                                 Quantity: {productItem.quantity}
                               </div>
-                              <button className="buy-again-button button-primary">
+                              <button className="buy-again-button button-primary" onClick={addItemToCartAgain}>
                                 <img className="buy-again-icon" src="images/icons/buy-again.png" />
-                                <span className="buy-again-message">Add to Cart</span>
+                                <span className="buy-again-message" >Add to Cart</span>
                               </button>
                             </div>
 
                             <div className="product-actions">
-                              <Link to="tracking.html">
-                                <button className="track-package-button button-secondary">
+                              <Link to={`tracking/${orderItem.id}/${productItem.product.id}`}>
+                                <button className="track-package-button button-secondary" >
                                   Track package
                                 </button>
                               </Link>

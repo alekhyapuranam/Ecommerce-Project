@@ -13,6 +13,9 @@
   margin-left: auto;
   margin-right: auto;
 }
+.update-quantity{
+  margin-left: 5px;
+}
 
 .checkout-page .page-title {
   font-weight: 700;

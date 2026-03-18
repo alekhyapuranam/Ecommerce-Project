@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 export function ProductComponent({ product, loadCartItems }) {
-      
-    
+
+
     let [optionSelected, setOptionSelected] = useState(1);
-   
-  
+
+
     async function addToCartFunction() {
         let quantity = Number(optionSelected);
         // console.log(optionSelected);
@@ -22,7 +22,7 @@ export function ProductComponent({ product, loadCartItems }) {
     return (
         <div key={product.id} className="product-container">
             <div className="product-image-container">
-                <img className="product-image"
+                <img className="product-image" data-testId="test-product-image"
                     src={product.image} />
             </div>
 
@@ -31,7 +31,7 @@ export function ProductComponent({ product, loadCartItems }) {
             </div>
 
             <div className="product-rating-container">
-                <img className="product-rating-stars"
+                <img className="product-rating-stars" data-testId="test-image"
                     src={`images/ratings/rating-${(product.rating.stars) * 10}.png`} />
                 <div className="product-rating-count link-primary">
                     {product.rating.count}

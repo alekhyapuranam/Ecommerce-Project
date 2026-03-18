@@ -1,76 +1,108 @@
+import axios from "axios";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router";
+import { Header } from "../../components/Header";
 import "./tracking.css";
-export function Tracking(){
+export function Tracking({checkoutItems}){
+
+  const {orderId, productId}=useParams();
+  let [orderTracking,setOrderTracking]=useState({});
+  //let [deliveryProgress, setDeliveryProgress]=useState();
+  
+  
+  console.log("type",typeof orderId);
+  useEffect(()=>{
+    let fetchOrderDetails=async()=>{
+     let response =  await axios.get(`api/orders/${orderId}?expand=products`);
+   let data = response.data;
+
+     setOrderTracking(data);
+    
+    }
+    fetchOrderDetails();
+    
+ 
+  },[orderId]);
+  // console.log(orderTracking.products);
+   let productDetails;
+   let deliveryProgress;
+   let isPreparing;
+   let isShipping;
+   let isDelivered;
+     if(orderTracking.products){
+      let productsArray = orderTracking.products;
+      productDetails=productsArray.find((product)=>{
+        console.log(product);
+        return product.productId===productId;
+   });
+     console.log(productDetails);
+     let orderTime=orderTracking.orderTimeMs;
+     let estimatedDeliveryTime=productDetails.estimatedDeliveryTimeMs;
+     let totalDeliveryTime=estimatedDeliveryTime-orderTime;
+     let timePassed=dayjs().valueOf() -orderTime;
+     deliveryProgress= (timePassed/totalDeliveryTime)*100;
+     isPreparing= (deliveryProgress<=33);
+     isShipping=(deliveryProgress>33 && deliveryProgress<100);
+     isDelivered=(deliveryProgress>=100);
+
+     //setOrderTracking({});
+   } 
+   
+     
+ // console.log(orderDetails.products);
+ // let productsArray=orderDetails.products;
+ // let productDetails=productsArray.find((product)=>{
+ //     product.productId===productId
+ // });
+  //  console.log(productDetails);
+
     return(
+      productDetails && (
         <>
-          <div className="header">
-      <div className="left-section">
-        <a href="/" className="header-link">
-          <img className="logo"
-            src="images/logo-white.png" />
-          <img className="mobile-logo"
-            src="images/mobile-logo-white.png" />
-        </a>
-      </div>
-
-      <div className="middle-section">
-        <input className="search-bar" type="text" placeholder="Search" />
-
-        <button className="search-button">
-          <img className="search-icon" src="images/icons/search-icon.png" />
-        </button>
-      </div>
-
-      <div className="right-section">
-        <a className="orders-link header-link" href="/orders">
-
-          <span className="orders-text">Orders</span>
-        </a>
-
-        <a className="cart-link header-link" href="/checkout">
-          <img className="cart-icon" src="images/icons/cart-icon.png" />
-          <div className="cart-quantity">3</div>
-          <div className="cart-text">Cart</div>
-        </a>
-      </div>
-    </div>
+          <Header checkoutItems={checkoutItems}/>
 
     <div className="tracking-page">
       <div className="order-tracking">
-        <a className="back-to-orders-link link-primary" href="/orders">
+        <Link className="back-to-orders-link link-primary" to="/orders">
           View all orders
-        </a>
+        </Link>
 
         <div className="delivery-date">
-          Arriving on Monday, June 13
+          Arriving on {dayjs(productDetails.estimatedDeliveryTimeMs).format('dddd, MMMM D')}
         </div>
 
         <div className="product-info">
-          Black and Gray Athletic Cotton Socks - 6 Pairs
+          {productDetails.product.name}
         </div>
 
         <div className="product-info">
-          Quantity: 1
+          Quantity: {productDetails.quantity}
         </div>
 
-        <img className="product-image" src="images/products/athletic-cotton-socks-6-pairs.jpg" />
+        <img className="product-image" src={productDetails.product.image} />
 
         <div className="progress-labels-container">
-          <div className="progress-label">
+          <div className={`progress-label ${isPreparing&& 'current-status'}`}>
             Preparing
           </div>
-          <div className="progress-label current-status">
+          <div className={`progress-label ${isShipping && 'current-status'}`}>
             Shipped
           </div>
-          <div className="progress-label">
+          <div className={`progress-label ${isDelivered && 'current-status'}`}>
             Delivered
           </div>
         </div>
 
         <div className="progress-bar-container">
-          <div className="progress-bar"></div>
+          <div className="progress-bar" style={{width : `${deliveryProgress}%`}}></div>
         </div>
       </div>
     </div>
         </>
+      )
+    
+      
+        
     );
 }
